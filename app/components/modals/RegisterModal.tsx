@@ -6,6 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import Modal from "./Modal";
+import Heading from "../Heading";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -31,10 +33,27 @@ const RegisterModal = () => {
       .then(() => {
         registerModal.onClose();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
-  return <div></div>;
+  const bodyContent = (
+    <div className="flex flex-col gap-4">
+      <Heading title="Welcome to AirBnB" subtitle="Create an account" center />
+    </div>
+  );
+
+  return (
+    <Modal
+      disabled={isLoading}
+      isOpen={registerModal.isOpen}
+      title="Register"
+      actionLabel="Continue"
+      onClose={registerModal.onClose}
+      onSubmit={handleSubmit(onSubmit)}
+      body={bodyContent}
+    />
+  );
 };
 
 export default RegisterModal;
